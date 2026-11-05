@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Local tools and editor output
+.taste-skill/
+.turbo/
+.DS_Store
+*.log
+.vscode/*
+!.vscode/settings.json
+
+# Secrets (keep the example config tracked)
+.env*
+!.env.example

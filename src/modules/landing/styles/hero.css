@@ -1,0 +1,124 @@
+/* A centered editorial composition. The name stays real text; the hiker is a transparent PNG. */
+.hero { background: var(--paper); }
+.hero-stage {
+  position: relative;
+  isolation: isolate;
+  min-height: 760px;
+  overflow: hidden;
+  padding: 55px 6.25% 46px;
+}
+.hero-label {
+  position: relative;
+  z-index: 3;
+  margin: 0;
+  width: max-content;
+  font: 11px/1.55 "Courier New", monospace;
+  letter-spacing: .18em;
+  color: #4d504a;
+}
+.hero-label::after { content: ""; display: block; width: 29px; height: 1px; background: currentColor; margin-top: 14px; }
+.hero-wordmark {
+  position: absolute;
+  z-index: 1;
+  top: 105px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: clamp(104px, 20.7vw, 304px);
+  font-weight: 800;
+  line-height: .88;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.hero-person {
+  position: absolute;
+  z-index: 2;
+  width: clamp(305px, 22.5vw, 340px);
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hero-person img { width: 100%; height: auto; display: block; }
+.hero-bottom {
+  position: absolute;
+  z-index: 3;
+  left: 6.25%;
+  right: 6.25%;
+  bottom: 49px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.hero-copy { width: 315px; max-width: 30%; }
+.hero-copy p { margin: 0 0 20px; font-size: 15px; line-height: 1.68; color: #333632; }
+.hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.hero-actions .button { font-size: 13px; padding: 13px 15px; gap: 12px; min-height: 46px; }
+.hero-secondary-link { display: inline-flex; align-items: center; gap: 9px; border-bottom: 1px solid var(--ink); padding: 8px 0; font-size: 13px; font-weight: 600; }
+.hero-secondary-link:hover, .hero-about-link:hover { opacity: .7; }
+.hero-about-link { display: inline-flex; align-items: center; gap: 13px; padding-bottom: 1px; font-size: 14px; }
+.hero-about-link__icon { border: 1px solid #969994; width: 39px; height: 39px; border-radius: 50%; display: grid; place-items: center; font-size: 19px; }
+.hero-categories { display: grid; grid-template-columns: 1.45fr repeat(3, minmax(0, 1fr)); align-items: stretch; padding: 0 6.25%; border-block: 1px solid var(--line); min-height: 74px; }
+.hero-categories__label { display: flex; align-items: center; padding-right: 14px; font: 10px/1.4 "Courier New", monospace; letter-spacing: .1em; color: #70736d; }
+.hero-categories a { display: flex; align-items: center; gap: 12px; border-left: 1px solid var(--line); padding: 17px 18px; font-size: 15px; font-weight: 600; }
+.hero-categories a:hover { background: #eae9e3; }
+.hero-categories__arrow { margin-left: auto; font-size: 19px; font-weight: 400; }
+@media (max-width: 1100px) {
+  .hero-stage { min-height: 690px; padding-inline: 5%; }
+  .hero-wordmark { top: 123px; font-size: 20.2vw; }
+  .hero-person { width: clamp(285px, 31vw, 325px); }
+  .hero-bottom { left: 5%; right: 5%; bottom: 40px; }
+  .hero-copy { max-width: 32%; }
+  .hero-copy p { font-size: 14px; }
+  .hero-categories { padding-inline: 5%; grid-template-columns: 1fr repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .hero-stage { min-height: 760px; padding: 34px 22px 0; }
+  .hero-label { font-size: 10px; line-height: 1.5; }
+  .hero-wordmark { top: 116px; left: 50%; font-size: 16.5vw; letter-spacing: -.071em; line-height: 1; }
+  .hero-person { width: min(69vw, 284px); bottom: 185px; }
+  .hero-bottom { left: 22px; right: 22px; bottom: 28px; display: block; }
+  .hero-copy { width: 100%; max-width: 100%; }
+  .hero-copy p { max-width: 380px; font-size: 14px; line-height: 1.55; margin-bottom: 16px; }
+  .hero-actions { gap: 18px; }
+  .hero-actions .button { padding: 12px 13px; font-size: 13px; min-height: 43px; }
+  .hero-about-link { display: none; }
+  .hero-categories { padding: 0 22px 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hero-categories__label { grid-column: 1 / -1; padding: 12px 0 5px; }
+  .hero-categories a { padding: 13px 8px; font-size: 13px; }
+  .hero-categories a:first-of-type { padding-left: 0; border-left: 0; }
+  .hero-categories__arrow { font-size: 15px; }
+}
+@media (max-width: 400px) {
+  .hero-stage { min-height: 750px; }
+  .hero-person { bottom: 180px; width: 68vw; }
+  .hero-wordmark { top: 116px; font-size: 16.3vw; }
+  .hero-copy p { font-size: 13px; }
+  .hero-categories a { font-size: 12px; }
+}
+
+/* Entrance only; the approved centered composition does not move as users read. */
+.hero-wordmark {
+  animation: hero-type-in 850ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.hero-person img {
+  animation: hero-person-in 1050ms cubic-bezier(.2, .8, .2, 1) 130ms both;
+}
+
+@keyframes hero-type-in {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes hero-person-in {
+  from { opacity: 0; transform: translateY(26px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wordmark,
+  .hero-person img { animation: none; }
+}

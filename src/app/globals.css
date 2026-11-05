@@ -1,0 +1,154 @@
+/* Base styles. */
+
+@import "tailwindcss";
+
+:root {
+  --paper: #f5f4f0;
+  --ink: #171918;
+  --muted: #676a66;
+  --line: #c9cbc5;
+  --dark: #232624;
+  --accent: #303a37;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial,"Helvetica Neue",sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid #385a8e;
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site {
+  max-width: 1536px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.micro {
+  font: 11px/1.5 "Courier New",monospace;
+  letter-spacing: .07em;
+  color: var(--muted);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrow:before {
+  content: "";
+  height: 1px;
+  width: 25px;
+  background: currentColor;
+}
+
+.section-title {
+  font-size: clamp(42px,4.25vw,66px);
+  letter-spacing: -.067em;
+  line-height: 1.025;
+  font-weight: 600;
+  margin: 24px 0 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 19px;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 45px;
+}
+
+.button:hover {
+  background: #3b4140;
+}
+
+.button--light {
+  background: #eeeae2;
+  color: var(--ink);
+}
+
+.text-link {
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 6px;
+  display: inline-flex;
+  gap: 17px;
+  align-items: center;
+}
+
+.text-link:hover {
+  opacity: .65;
+}
+
+@media (max-width:700px) {
+  .products,.activities,.process,.about {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .section-title {
+    font-size: clamp(38px,10.5vw,54px);
+  }
+}
+
+html {
+  scroll-padding-top: 24px;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

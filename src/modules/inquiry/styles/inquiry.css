@@ -1,0 +1,100 @@
+/* Inquiry styles. */
+
+dialog {
+  border: 1px solid #d0d0ca;
+  max-width: 510px;
+  width: min(90vw,510px);
+  padding: 34px 36px;
+  background: #f8f7f3;
+  box-shadow: 0 30px 90px #0004;
+  color: var(--ink);
+}
+
+dialog::backdrop {
+  background: #101514a8;
+}
+
+.dialog-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+}
+
+.dialog-top button {
+  border: 0;
+  background: none;
+  font-size: 25px;
+  line-height: 1;
+}
+
+dialog h2 {
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+  margin: 22px 0 12px;
+}
+
+dialog p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+dialog label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 18px;
+}
+
+dialog input,dialog select {
+  border: 1px solid #aaa;
+  background: white;
+  padding: 11px 12px;
+  width: 100%;
+  margin-top: 9px;
+  border-radius: 0;
+}
+
+dialog .button {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.dialog-status {
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-line;
+  color: #303f39;
+  min-height: 20px;
+}
+
+.dialog-alert {
+  margin-top: 13px;
+  padding: 12px 14px;
+  background: #e8e7e1;
+  color: #454a45;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width:700px) {
+  dialog {
+    padding: 25px 23px;
+  }
+}
+
+dialog textarea {
+  width: 100%;
+  resize: vertical;
+  background: #fff;
+  border: 1px solid #aaa;
+  font: 13px/1.5 monospace;
+  padding: 12px;
+  margin-top: 9px;
+}
+
+dialog .dialog-status {
+  margin-top: 14px;
+}

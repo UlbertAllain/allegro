@@ -1,0 +1,110 @@
+/* Only Camping uses WebGL: white canvas blends with the activity section. */
+.activities {
+  background: #fff;
+}
+
+.category-feature.category-feature--scroll-morph {
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 520px;
+  padding: 0;
+  background: #fff;
+}
+
+.category-feature--scroll-morph::before {
+  content: none;
+}
+
+.category-feature__media {
+  position: relative;
+  min-height: 304px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.category-feature--scroll-morph .category-inner {
+  position: relative;
+  z-index: 2;
+  padding: 20px 30px 24px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.category-feature--scroll-morph .category-inner small {
+  color: var(--muted);
+}
+
+.category-feature--scroll-morph .category-inner h3 {
+  margin: 7px 0 9px;
+  font-size: clamp(36px, 4vw, 50px);
+}
+
+.category-feature--scroll-morph .category-inner p {
+  max-width: 420px;
+  margin: 0 0 13px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.category-feature--scroll-morph .category-inner span {
+  border-color: currentColor;
+}
+
+.scroll-morph-image {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #fff;
+  pointer-events: none;
+}
+
+.scroll-morph-image__fallback,
+.scroll-morph-image__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-morph-image__fallback {
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+.scroll-morph-image__canvas {
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.scroll-morph-image[data-webgl-ready="true"] .scroll-morph-image__fallback {
+  opacity: 0;
+}
+
+.scroll-morph-image[data-webgl-ready="true"] .scroll-morph-image__canvas {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .category-feature.category-feature--scroll-morph:hover {
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .category-feature--scroll-morph .category-inner {
+    padding: 17px 8px 20px;
+  }
+
+  .category-feature__media {
+    min-height: 270px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-morph-image__canvas { display: none; }
+  .scroll-morph-image__fallback { opacity: 1 !important; }
+}

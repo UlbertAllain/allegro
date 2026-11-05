@@ -1,0 +1,74 @@
+/* Scroll entrance: slide + opacity. Applied only when IntersectionObserver is available. */
+.motion-enabled [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translate3d(0, 42px, 0);
+}
+
+.motion-enabled [data-reveal="left"]:not([data-revealed]) {
+  transform: translate3d(-42px, 0, 0);
+}
+
+.motion-enabled [data-reveal="right"]:not([data-revealed]) {
+  transform: translate3d(42px, 0, 0);
+}
+
+.motion-enabled [data-reveal]:not([data-reveal="line"]) {
+  transition:
+    opacity 750ms cubic-bezier(.2, .8, .2, 1),
+    transform 750ms cubic-bezier(.2, .8, .2, 1),
+    border-radius 850ms cubic-bezier(.2, .8, .2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal][data-revealed]:not([data-reveal="line"]) {
+  opacity: 1;
+  transform: none;
+  border-radius: 0;
+}
+
+[data-delay="1"] { --reveal-delay: 110ms; }
+[data-delay="2"] { --reveal-delay: 220ms; }
+[data-delay="3"] { --reveal-delay: 330ms; }
+
+.motion-enabled [data-reveal="line"]:not([data-revealed]) {
+  opacity: 1;
+  transform: none;
+}
+
+/* The only morphing surfaces are interactive, not arbitrary decorative blobs. */
+.button,
+.nav-action,
+.category-feature,
+.product-image,
+.hero-categories a {
+  transition:
+    border-radius 420ms ease,
+    background-color 250ms ease,
+    transform 420ms cubic-bezier(.2, .8, .2, 1);
+}
+
+@media (hover: hover) {
+  .button:hover,
+  .nav-action:hover { border-radius: 13px 2px 13px 2px; }
+  .category-feature:hover { border-radius: 32px 3px 32px 3px; }
+  .product:hover .product-image { border-radius: 18px 2px 18px 2px; }
+  .category-row:hover .round-arrow,
+  .hero-categories a:hover .hero-categories__arrow { transform: translate(3px, -3px); }
+}
+
+.category-row .round-arrow,
+.hero-categories__arrow { transition: transform 250ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal],
+  [data-reveal] *,
+  .button, .nav-action, .category-feature, .product-image,
+  .hero-categories a, .category-row .round-arrow, .hero-categories__arrow {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    border-radius: 0 !important;
+  }
+}

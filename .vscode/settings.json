@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/out": true,
+    "**/.taste-skill": true,
+    "**/*.tsbuildinfo": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/out": true,
+    "**/.taste-skill": true
+  }
+}
