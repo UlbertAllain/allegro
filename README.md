@@ -1,108 +1,114 @@
-# ALLEGRO — Company Profile
+# ALLEGRO
 
-Responsive, static company-profile site with the approved **centered editorial hero** and restrained scroll motion.
+A responsive company-profile website for an outdoor equipment rental service, covering camping, hiking, and caving. The project combines a centered editorial layout with a product showcase, rental instructions, and scroll-driven interactions.
 
-## Stack
+> **Project status:** Frontend prototype. Product details, rental prices, images, and business information must be verified before public launch. The site does not provide real-time stock availability or online booking.
 
-- Next.js 16 App Router + React 19 + TypeScript (strict)
-- Tailwind CSS 4 for occasional utilities, scoped CSS for editorial components
-- Native `IntersectionObserver` + CSS transitions for motion (no animation library)
-- Vitest for pure inquiry-message functions
-- Static export: no database, backend, or authentication
+## Tech stack
+
+| Area | Technology |
+| --- | --- |
+| Application | Next.js 16 (App Router), React 19 |
+| Language | TypeScript (strict mode) |
+| Styling | Tailwind CSS 4 and component-scoped CSS |
+| Motion | CSS, native browser APIs, Three.js (single optional WebGL effect) |
+| Testing | Vitest, TypeScript, ESLint |
+| Deployment | Static export, compatible with Vercel and static hosting |
+
+The site is static-first. No backend, database, or authentication is required for the current scope.
 
 ## Getting started
 
-Node.js 22 LTS recommended.
+**Requirements:** Node.js 22 LTS (recommended) and npm.
 
-```bash
-npm install
-cp .env.example .env.local # Windows PowerShell: Copy-Item .env.example .env.local
-npm run dev
-```
+1. Install dependencies:
 
-Open `http://localhost:3000`.
+   ```bash
+   npm ci
+   ```
 
-Quality checks and static export:
+2. Create a local environment file:
 
-```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run build
-```
+   ```bash
+   cp .env.example .env.local
+   ```
 
-`npm run build` outputs the deployable static site in `out/`.
+   On Windows PowerShell, use `Copy-Item .env.example .env.local`.
 
-## Why do extra folders appear?
+3. Start the development server:
 
-Those are generated automatically during installation and development. **They are not included in this source ZIP**:
+   ```bash
+   npm run dev
+   ```
 
-| Folder / file | Why it appears | Keep in Git? |
+Open **http://localhost:3000**.
+
+### Environment variables
+
+| Variable | Required | Purpose |
 | --- | --- | --- |
-| `node_modules/` | Local npm dependencies after `npm install` | No |
-| `.next/` | Next.js build and dev cache | No |
-| `out/` | Output of `npm run build` for static hosting | No |
-| `.taste-skill/` | Local tool/plugin-generated files | No |
-| `*.tsbuildinfo` | TypeScript incremental cache | No |
+| `NEXT_PUBLIC_ALLEGRO_WHATSAPP` | No | Verified business WhatsApp number for a prefilled inquiry link. Leave blank to use the copy-message flow. |
 
-The files above are ignored in `.gitignore`. It's normal for VS Code to display them locally. For VS Code, `.vscode/settings.json` hides these generated folders in Explorer and search results. They still exist and work normally; do not add them to the source ZIP or Git.
+Use an international-format phone number (for example, `6281234567890`). `NEXT_PUBLIC_*` variables are exposed to the browser: do not place secrets or access tokens here.
 
-## Source folders
+## Available scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Run the local development server |
+| `npm run lint` | Run ESLint |
+| `npm run typecheck` | Check TypeScript without emitting files |
+| `npm run test` | Run unit tests |
+| `npm run build` | Build the static production export into `out/` |
+| `npm run check` | Run lint, typecheck, tests, and production build |
+
+Before submitting changes, run `npm run check`.
+
+## Project structure
 
 ```text
+public/
+  images/                 Site photography and illustration assets
 src/
-  app/              Routing, metadata, and global base styles
-  components/shared/ Header, footer, shared motion observer
-  config/           Public site settings
+  app/                    Routing, metadata, global styles and layout
+  components/shared/      Site header, footer, and shared scroll observer
+  config/                 Public site configuration
   modules/
-    landing/        Hero and rental process
-    catalog/        Products, category navigation, catalog data
-    about/          About content
-    inquiry/        Inquiry dialog, message building, tests
-  styles/           Shared animation rules
-public/images/      Independent, replaceable visual assets
+    landing/              Hero and rental journey
+    catalog/              Product data, categories, and image morph
+    about/                Brand / equipment-handling content
+    inquiry/              Inquiry dialog, validation, and message builder
+  styles/                 Cross-module motion styles
 ```
 
-Styles are kept alongside the sections they serve. `src/app/globals.css` contains only global foundation styles.
+Each feature owns its components, styles, and supporting logic. Catalog items live in `src/modules/catalog/data/products.ts` and can be updated independently of the page layout.
 
-## Motion behavior
+For the design decisions and architectural boundaries, see [ARCHITECTURE.md](./ARCHITECTURE.md) and [ENGINEERING_STANDARD.md](./ENGINEERING_STANDARD.md).
 
-- Hero title and subject enter once on page load.
-- On scroll, section titles, catalog images and the rental steps slide/fade into view.
-- The **Cara Sewa** connector traces progressively with scroll position, and reverses while scrolling up.
-- Selected images and interactive surfaces subtly morph their corner shape on entrance/hover.
-- Entrance reveals play once; the Camping morph and Cara Sewa connector are **scroll-linked** and reversible.
-- If JavaScript is disabled, content is still visible. `prefers-reduced-motion` disables animation.
+## Features and interaction behavior
 
-Entrance motion: `src/components/shared/scroll-motion.tsx` and `src/styles/motion.css`. Scroll-driven rental timeline: `src/modules/landing/components/rental-journey.tsx` and `src/modules/landing/lib/get-journey-progress.ts`.
+- **Product discovery:** Featured equipment and activity-based navigation.
+- **Rental guidance:** An editorial three-step process with a scroll-linked timeline.
+- **Rental inquiry:** A client-side form that prepares a message with product, start date, and rental duration. When the official WhatsApp number is configured, it can open a prefilled chat; otherwise the message can be copied. This does **not** reserve an item or confirm availability.
+- **Motion:** Scroll reveals and a reversible, scroll-driven Three.js mask on the Camping image. The WebGL renderer is loaded only when needed.
+- **Accessibility and fallback:** Semantic navigation and native controls; static images remain visible if WebGL is unavailable, JavaScript is disabled, or reduced motion is requested.
 
-## Inquiry behavior
+The Three.js implementation is isolated in `src/modules/catalog/components/scroll-morph-image.tsx`. Scroll progress and shaders are kept in `src/modules/catalog/lib/`.
 
-"Tanya Stok" opens a native dialog to prepare a rental inquiry message. Without a contact number, the user can copy the text. For a WhatsApp deep link, set `NEXT_PUBLIC_ALLEGRO_WHATSAPP` to **ALLEGRO's verified official number**. The prototype does not check inventory or create bookings.
+## Deployment
 
-Before launch, verify catalog prices, photos and all business claims; configure official contact details, then update the metadata robots setting. Generated artwork is illustrative, not proof of ALLEGRO's actual inventory.
+The application uses `output: "export"` in `next.config.ts`. Running `npm run build` generates a static site in `out/`.
 
-See `ARCHITECTURE.md` and `ENGINEERING_STANDARD.md` for boundaries and decisions.
+For **Vercel**, connect the repository, select the Next.js framework preset, and allow Vercel to run the build on pushes to the deployment branch. For other static hosts, publish the generated `out/` directory.
 
-## Scroll-linked morph — experiment 01 (v9)
+### Launch checklist
 
-The **Camping** image changes from an organic silhouette to a full rectangular frame as the visitor scrolls. It reverses when scrolling upward. The existing centered hero stays unchanged. In v10, the background outside the mask and the entire activities section are **white**. The Camping caption sits below the image on white so it stays readable at every mask stage.
+- Verify rental product names, descriptions, prices, and images against actual inventory.
+- Configure the official WhatsApp number and test the inquiry flow.
+- Replace illustrative content with approved business information and media.
+- Run `npm run check` and test on desktop and mobile, including reduced-motion and WebGL fallback behavior.
+- Review `robots` metadata in `src/app/layout.tsx`. Indexing is currently disabled while the site is a prototype; change this only when the site is ready to go public.
 
-- `src/modules/catalog/components/scroll-morph-image.tsx` owns the lazy Three.js renderer and its lifecycle.
-- `src/modules/catalog/lib/scroll-morph-shaders.ts` owns the GLSL boundary/image shader.
-- `src/modules/catalog/lib/get-morph-progress.ts` maps viewport position to a clamped 0–1 value, with unit tests.
-- `src/modules/catalog/styles/scroll-morph.css` owns the surface and fallback styling.
+## Limitations
 
-Only one WebGL surface is used. The code dynamically imports Three.js when the Camping card approaches the viewport, caps device pixel ratio at 1.5, updates only while the scroll progress is changing, and disposes its resources when unmounted. It deliberately avoids scroll-jacking, pinning, and global WebGL canvases.
-
-If WebGL is unavailable, JavaScript is disabled, or `prefers-reduced-motion: reduce` is enabled, the regular image stays visible and all links remain functional. A lightweight standalone interactive HTML preview is supplied separately; its offline renderer uses the same radial boundary formula with Canvas 2D when WebGL is unavailable.
-
-Before shipping this experiment, run `npm install` and `npm run check` locally, then verify performance on real low-end mobile devices. This environment could not access npm registry or enable GPU/WebGL for a full Next.js render.
-
-## Motion refinement (v10)
-
-- **White Camping morph:** `src/modules/catalog/styles/scroll-morph.css` sets the media and section to `#fff`; the photo is independently masked in Three.js. The original full photograph remains available if WebGL/JavaScript is unavailable or reduced motion is requested.
-- **Rental timeline:** `src/modules/landing/components/rental-journey.tsx` draws the three-step connector proportionally to scroll progress, from left to right on desktop and top to bottom on mobile. The unanimated full line remains present without JavaScript or with reduced motion.
-- **No new dependencies:** We reuse native scrolling, `requestAnimationFrame`, and the existing Three.js experiment. All listeners are removed on unmount.
-
-The offline HTML preview uses Canvas 2D as a fallback and cannot verify real GPU rendering. Validate on a real device before deployment.
+This repository is a frontend demonstration, not an inventory or reservation system. Displayed prices and availability are not authoritative. Scroll-based WebGL effects are optional enhancements; core navigation and content must remain usable without them.
