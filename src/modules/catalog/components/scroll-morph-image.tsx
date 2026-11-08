@@ -25,6 +25,9 @@ export function ScrollMorphImage({ src, alt, width, height }: ScrollMorphImagePr
     const frame = frameRef.current;
     const canvas = canvasRef.current;
     if (!frame || !canvas) return;
+
+    // Preserve a non-null element type inside asynchronous callbacks.
+    const frameElement: HTMLDivElement = frame;
     if (!window.WebGLRenderingContext || !window.IntersectionObserver) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -107,12 +110,12 @@ export function ScrollMorphImage({ src, alt, width, height }: ScrollMorphImagePr
         }
 
         function updateProgress() {
-          targetProgress = getMorphProgress(frame.getBoundingClientRect().top, window.innerHeight);
+          targetProgress = getMorphProgress(frameElement.getBoundingClientRect().top, window.innerHeight);
           scheduleDraw();
         }
 
         function resize() {
-          const bounds = frame.getBoundingClientRect();
+          const bounds = frameElement.getBoundingClientRect();
           if (bounds.width <= 0 || bounds.height <= 0) return;
           renderer.setSize(bounds.width, bounds.height, false);
           material.uniforms.uFrameAspect.value = bounds.width / bounds.height;
@@ -120,7 +123,7 @@ export function ScrollMorphImage({ src, alt, width, height }: ScrollMorphImagePr
         }
 
         const observer = "ResizeObserver" in window ? new ResizeObserver(resize) : null;
-        observer?.observe(frame);
+        observer?.observe(frameElement);
         window.addEventListener("scroll", updateProgress, { passive: true });
         window.addEventListener("resize", resize, { passive: true });
         const onContextLost = (event: Event) => {
@@ -163,7 +166,7 @@ export function ScrollMorphImage({ src, alt, width, height }: ScrollMorphImagePr
       },
       { rootMargin: "280px 0px" },
     );
-    lazyObserver.observe(frame);
+    lazyObserver.observe(frameElement);
 
     return () => {
       cancelled = true;
